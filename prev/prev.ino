@@ -1,4 +1,4 @@
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Final ESP32 MySQL Database
+      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Final ESP32 MySQL Database
 //======================================== Including the libraries.
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
@@ -7,7 +7,7 @@
 //======================================== 
 
 //======================================== DHT sensor settings (DHT11).
-#define DHTPIN 15 //--> Defines the Digital Pin connected to the DHT11 sensor.
+#define DHTPIN 2 //--> Defines the Digital Pin connected to the DHT11 sensor.
 #define DHTTYPE DHT11 //--> Defines the type of DHT sensor used. Here used is the DHT11 sensor.
 DHT dht11_sensor(DHTPIN, DHTTYPE); //--> Initialize DHT sensor.
 //========================================
@@ -207,7 +207,7 @@ void loop() {
     //                                         But make sure that the IP address used is "IPv4 address".
     // Example : http.begin("http://192.168.0.0/ESP32_MySQL_Database/Final/getdata.php");
 
-    http.begin(client, "http://192.168.137.1/prev/updateDHT11data_and_recordtable.php");  //--> Specify request destination
+    http.begin(client, "http://192.168.137.159/prev/updateDHT11data_and_recordtable.php");  //--> Specify request destination
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");        //--> Specify content-type header
    
     httpCode = http.POST(postData); //--> Send the request
@@ -252,7 +252,7 @@ void loop() {
     Serial.println();
     Serial.println("---------------updateDHT11data_and_recordtable.php");
     // Example : http.begin("http://192.168.0.0/ESP32_MySQL_Database/Final/updateDHT11data_and_recordtable.php");
-    http.begin(client, "http://192.168.137.1/prev/updateDHT11data_and_recordtable.php");   //--> Specify request destination
+    http.begin(client, "http://192.168.137.159/prev/updateDHT11data_and_recordtable.php");   //--> Specify request destination
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");  //--> Specify content-type header
    
     httpCode = http.POST(postData); //--> Send the request
