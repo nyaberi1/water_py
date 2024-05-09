@@ -1,7 +1,6 @@
 <?php
 require 'database.php';
 
-
 if (!empty($_POST)) {
 
   $id = $_POST['id'];
