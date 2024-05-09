@@ -29,6 +29,7 @@
 		}
 	}
 	//main in the main 
+	//changed to reset changed password 
 ?>
 
 
