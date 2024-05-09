@@ -5,7 +5,7 @@
 		private static $dbName = 'prev'; 
 		private static $dbHost = 'localhost'; 
 		private static $dbUsername = 'root'; 
-		private static $dbUserPassword = '12345'; 
+		private static $dbUserPassword = ''; 
 		 
 		private static $cont  = null;
 		 
