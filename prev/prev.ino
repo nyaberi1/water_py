@@ -1,16 +1,15 @@
-      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Final ESP32 MySQL Database
-//======================================== Including the libraries.
+      // libraries
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <Arduino_JSON.h>
 #include "DHT.h"
-//======================================== 
+//
 
-//======================================== DHT sensor settings (DHT11).
+//DHT sensor settings (DHT11).
 #define DHTPIN 2 //--> Defines the Digital Pin connected to the DHT11 sensor.
 #define DHTTYPE DHT11 //--> Defines the type of DHT sensor used. Here used is the DHT11 sensor.
 DHT dht11_sensor(DHTPIN, DHTTYPE); //--> Initialize DHT sensor.
-//========================================
+
 
 // Defines the Digital Pin of the "On Board LED".
 #define ON_Board_LED 2 
@@ -23,21 +22,21 @@ DHT dht11_sensor(DHTPIN, DHTTYPE); //--> Initialize DHT sensor.
 //#define LED_02 12 
     WiFiClient client; 
 
-//======================================== SSID and Password of your WiFi router. 
-const char* ssid = "INNOVATION HUB";
-const char* password = "Innovation@@2024@";
-//======================================== 
+//SSID and Password of your WiFi router. 
+const char* ssid = "vendor";
+const char* password = "pny@123.";
+//
 
-//======================================== Variables for HTTP POST request data.
+//Variables for HTTP POST request data.
 String postData = ""; //--> Variables sent for HTTP POST request data.
 String payload = "";  //--> Variable for receiving response from HTTP POST.
-//======================================== 
+//
 
-//======================================== Variables for DHT11 sensor data.
+//Variables for DHT11 sensor data.
 float send_Temp;
 int send_Humd;
 String send_Status_Read_DHT11 = "";
-//======================================== 
+//
 
 //________________________________________________________________________________ Subroutine to control LEDs after successfully fetching data from database.
 void control_LEDs() {
@@ -52,32 +51,16 @@ void control_LEDs() {
     return;
   }
 
-  //if (myObject.hasOwnProperty("LED_01")) {
-    //Serial.print("myObject[\"LED_01\"] = ");
-    //Serial.println(myObject["LED_01"]);
-  //}
-
- // if (myObject.hasOwnProperty("LED_02")) {
-   // Serial.print("myObject[\"LED_02\"] = ");
-   // Serial.println(myObject["LED_02"]);
- // }
-
-//  if(strcmp(myObject["LED_01"], "ON") == 0)   {digitalWrite(LED_01, HIGH);  Serial.println("LED 01 ON"); }
- // if(strcmp(myObject["LED_01"], "OFF") == 0)  {digitalWrite(LED_01, LOW);   Serial.println("LED 01 OFF");}
- // if(strcmp(myObject["LED_02"], "ON") == 0)   {digitalWrite(LED_02, HIGH);  Serial.println("LED 02 ON"); }
- // if(strcmp(myObject["LED_02"], "OFF") == 0)  {digitalWrite(LED_02, LOW);   Serial.println("LED 02 OFF");}
-
- // Serial.println("---------------");
+  
 }
-//________________________________________________________________________________ 
 
-// ________________________________________________________________________________ Subroutine to read and get data from the DHT11 sensor.
+
+//Subroutine to read and get data from the DHT11 sensor.
 void get_DHT11_sensor_data() {
   Serial.println();
   Serial.println("-------------get_DHT11_sensor_data()");
   
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+  
   
   // Read temperature as Celsius (the default)
   send_Temp = dht11_sensor.readTemperature();
@@ -103,9 +86,9 @@ void get_DHT11_sensor_data() {
   Serial.printf("Status Read DHT11 Sensor : %s\n", send_Status_Read_DHT11);
   Serial.println("-------------");
 }
-// ________________________________________________________________________________
 
-//________________________________________________________________________________ VOID SETUP()
+
+// VOID SETUP()
 void setup() {
   // put your setup code here, to run once:
   
@@ -125,16 +108,16 @@ void setup() {
  // digitalWrite(LED_01, LOW); //--> Turn off Led LED_01.
  // digitalWrite(LED_02, LOW); //--> Turn off Led LED_02.
 
-  //---------------------------------------- Make WiFi on ESP32 in "STA/Station" mode and start connecting to WiFi Router/Hotspot.
+  // Make WiFi on ESP32 in "STA/Station" mode and start connecting to WiFi Router/Hotspot.
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
-  //---------------------------------------- 
+  // 
   
   Serial.println();
   Serial.println("-------------");
   Serial.print("Connecting");
 
-  //---------------------------------------- The process of connecting the WiFi on the ESP32 to the WiFi Router/Hotspot.
+  // The process of connecting the WiFi on the ESP32 to the WiFi Router/Hotspot.
   // The process timeout of connecting ESP32 with WiFi Hotspot / WiFi Router is 20 seconds.
   // If within 20 seconds the ESP32 has not been successfully connected to WiFi, the ESP32 will restart.
   // I made this condition because on my ESP32, there are times when it seems like it can't connect to WiFi, so it needs to be restarted to be able to connect to WiFi.
@@ -158,18 +141,18 @@ void setup() {
     }
     //........................................ 
   }
-  //---------------------------------------- 
+  // 
   
   digitalWrite(ON_Board_LED, LOW); //--> Turn off the On Board LED when it is connected to the wifi router.
   
-  //---------------------------------------- If successfully connected to the wifi router, the IP Address that will be visited is displayed in the serial monitor
+  // If successfully connected to the wifi router, the IP Address that will be visited is displayed in the serial monitor
   Serial.println();
   Serial.print("Successfully connected to : ");
   Serial.println(ssid);
-  //Serial.print("IP address: ");
-  //Serial.println(WiFi.localIP());
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
   Serial.println("-------------");
-  //---------------------------------------- 
+  // 
 
   // Setting up the DHT sensor (DHT11).
   dht11_sensor.begin();
@@ -182,7 +165,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly
 
-  //---------------------------------------- Check WiFi connection status.
+  // Check WiFi connection status.
   if(WiFi.status()== WL_CONNECTED) {
     HTTPClient http;  //--> Declare object of class HTTPClient.
     int httpCode;     //--> Variables for HTTP return code.
@@ -194,20 +177,10 @@ void loop() {
     digitalWrite(ON_Board_LED, HIGH);
     Serial.println();
     Serial.println("---------------getdata.php");
-    // In this project I use local server or localhost with XAMPP application.
-    // So make sure all PHP files are "placed" or "saved" or "run" in the "htdocs" folder.
-    // I suggest that you create a new folder for this project in the "htdocs" folder.
-    // The "htdocs" folder is in the "xampp" installation folder.
-    // The order of the folders I recommend:
-    // xampp\htdocs\your_project_folder_name\phpfile.php
-    //
-    // ESP32 accesses the data bases at this line of code: 
+    
     // http.begin("http://REPLACE_WITH_YOUR_COMPUTER_IP_ADDRESS/REPLACE_WITH_PROJECT_FOLDER_NAME_IN_htdocs_FOLDER/getdata.php");
-    // REPLACE_WITH_YOUR_COMPUTER_IP_ADDRESS = there are many ways to see the IP address, you can google it. 
-    //                                         But make sure that the IP address used is "IPv4 address".
-    // Example : http.begin("http://192.168.0.0/ESP32_MySQL_Database/Final/getdata.php");
-
-    http.begin(client, "http://192.168.137.159/prev/updateDHT11data_and_recordtable.php");  //--> Specify request destination
+    
+    http.begin(client, "http://192.168.1.192/water_py/updateDHT11data_and_recordtable.php");  //--> Specify request destination
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");        //--> Specify content-type header
    
     httpCode = http.POST(postData); //--> Send the request
@@ -221,8 +194,7 @@ void loop() {
     http.end();  //--> Close connection
     Serial.println("---------------");
     digitalWrite(ON_Board_LED, LOW);
-    //........................................ 
-
+   
     // Calls the control_LEDs() subroutine.
     control_LEDs();
     
@@ -231,28 +203,20 @@ void loop() {
     // Calls the get_DHT11_sensor_data() subroutine.
     get_DHT11_sensor_data();
   
-    //........................................ The process of sending the DHT11 sensor data and the state of the LEDs to the database.
-    //String LED_01_State = "";
-    //String LED_02_State = "";
-
-   // if (digitalRead(LED_01) == 1) LED_01_State = "ON";
-   // if (digitalRead(LED_01) == 0) LED_01_State = "OFF";
-   // if (digitalRead(LED_02) == 1) LED_02_State = "ON";
-   // if (digitalRead(LED_02) == 0) LED_02_State = "OFF";
-    
+    // The process of sending the DHT11 sensor data and the state of the LEDs to the database.
+  
     postData = "id=esp32_01";
     postData += "&temperature=" + String(send_Temp);
     postData += "&humidity=" + String(send_Humd);
     postData += "&status_read_sensor_dht11=" + send_Status_Read_DHT11;
-    //postData += "&led_01=" + LED_01_State;
-    //postData += "&led_02=" + LED_02_State;
+   
     payload = "";
   
     digitalWrite(ON_Board_LED, HIGH);
     Serial.println();
-    Serial.println("---------------updateDHT11data_and_recordtable.php");
+    Serial.println("updateDHT11data_and_recordtable.php");
     // Example : http.begin("http://192.168.0.0/ESP32_MySQL_Database/Final/updateDHT11data_and_recordtable.php");
-    http.begin(client, "http://192.168.137.159/prev/updateDHT11data_and_recordtable.php");   //--> Specify request destination
+    http.begin(client, "http:// 192.168.1.192/water_py/updateDHT11data_and_recordtable.php");   //--> Specify request destination
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");  //--> Specify content-type header
    
     httpCode = http.POST(postData); //--> Send the request
@@ -270,7 +234,5 @@ void loop() {
     
     delay(4000);
   }
-  //---------------------------------------- 
+ 
 }
-//________________________________________________________________________________ 
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
